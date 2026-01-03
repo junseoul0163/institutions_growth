@@ -1,0 +1,19 @@
+# Ignore Stata Data Files
+*.dta
+*.wc
+*.stpr
+
+# Ignore Raw Data Sources
+*.xls
+*.xlsx
+*.csv
+*.txt
+*.sav
+
+# Ignore Mac System Files
+.DS_Store
+
+# Keep the folders themselves, but ignore content inside
+!data/raw/.gitkeep
+!data/clean/.gitkeep
+!output/.gitkeep
