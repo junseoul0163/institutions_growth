@@ -46,7 +46,7 @@ save "data/clean/polity_clean.dta", replace
 * 4. CLEAN ECONOMIC DATA (Penn World Table 11.0)
 *-------------------------------------------------------------------------------
 display "Cleaning Penn World Table 11.0..."
-use "data/raw/pwt110.dta", clear  // <--- UPDATED FILENAME
+use "data/raw/pwt110.dta", clear  
 
 * PWT already has ISO codes ("countrycode").
 rename countrycode iso_code
