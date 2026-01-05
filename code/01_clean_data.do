@@ -21,11 +21,7 @@ cd "$path"
 display "Cleaning Polity V Data..."
 import excel "data/raw/p5v2018.xls", firstrow clear
 
-* Keep key variables
 keep country year polity2
-
-* FIX: Polity uses special codes for "Anarchy" (-77) or "Transition" (-88)
-* We treat these as missing data (.) for now.
 replace polity2 = . if polity2 < -10
 
 * STANDARDIZE NAMES
@@ -34,11 +30,19 @@ kountry country_raw, from(other) stuck
 rename _ISO3N_ iso_num
 kountry iso_num, from(iso3n) to(iso3c)
 rename _ISO3C_ iso_code
-
-* Drop countries that didn't match
 drop if iso_code == ""
 
-* Save temp file
+*--- NEW: FIX DUPLICATES ---*
+* 1. Count duplicates to see the problem
+duplicates report iso_code year
+
+* 2. Sort so that if there's a duplicate, the one with data comes first
+gsort iso_code year -polity2
+
+* 3. Drop the duplicates
+duplicates drop iso_code year, force
+
+* Save clean file
 save "data/clean/polity_clean.dta", replace
 
 
@@ -73,5 +77,6 @@ label var ctfp "Total Factor Productivity (TFP)"
 
 * Save temp file
 save "data/clean/pwt_clean.dta", replace
+
 
 display "STEP 1 COMPLETE: PWT 11.0 and Polity Cleaned."
